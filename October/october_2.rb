@@ -55,6 +55,28 @@ string_2 = "LVIII"
 string_3 = "III"
 
 def roman_to_int(s)
+  total = 0
+  p s
+  if s.include?("IV")
+    total -= 2
+  end
+  if s.include?("IX") 
+    total -= 2
+  end
+  if s.include?("CM")
+    total -= 200
+  end
+  if s.include?("CD")
+    total -= 200
+  end
+  if s.include?("XL")
+    total -= 20
+  end
+  if s.include?("XC")
+    total -= 20
+  end
+  p s
+  p total
   roman_arr = s.split('')
   roman_arr.map! do |roman|
     roman.gsub!("M", "1000")
@@ -66,11 +88,7 @@ def roman_to_int(s)
     roman.gsub!("I", "1")
     roman.to_i
   end
-  p roman_arr
-  if roman_arr[-2] == 1
-    roman_arr.sum - 2
-  end
-  if roman_arr[]
+  roman_arr.sum + total
 end
 
 p roman_to_int(string_1)
