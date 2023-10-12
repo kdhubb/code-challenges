@@ -56,7 +56,6 @@ string_3 = "III"
 
 def roman_to_int(s)
   total = 0
-  p s
   if s.include?("IV")
     total -= 2
   end
@@ -75,8 +74,6 @@ def roman_to_int(s)
   if s.include?("XC")
     total -= 20
   end
-  p s
-  p total
   roman_arr = s.split('')
   roman_arr.map! do |roman|
     roman.gsub!("M", "1000")
