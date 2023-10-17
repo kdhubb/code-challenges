@@ -34,30 +34,60 @@
 # heights = [1,1]
 heights = [4,3,2,1,4]
 
+# def max_area(height)
+#   heights = Hash.new([])
+#   height.each_with_index do |num, index|
+#     heights[num] += [index]
+#   end
+#   volume = []
+#   if heights.keys.length > 1
+#     heights.keys.combination(2) do |combo|
+#       max_idx_combo = []
+#       if heights[combo[0]].length > 1 || heights[combo[1]].length > 1
+#         volume << combo[0] * (heights[combo[0]].max - heights[combo[0]].min)
+#         volume << combo[1] * (heights[combo[1]].max - heights[combo[1]].min)
+#       end
+#       heights[combo[0]].each do |idx1|
+#         heights[combo[1]].each do |idx2|
+#           max_idx_combo << (idx2 - idx1)
+#         end
+#       end
+#     volume << (combo.min * max_idx_combo.max)
+#     end
+#     volume.max
+#   else
+#     heights.keys[0] * (heights[heights.keys[0]].length - 1)
+#   end
+# end
+
+# recursive solution example: 
+
 def max_area(height)
-  heights = Hash.new([])
-  height.each_with_index do |num, index|
-    heights[num] += [index]
-  end
-  volume = []
-  if heights.keys.length > 1
-    heights.keys.combination(2) do |combo|
-      max_idx_combo = []
-      if heights[combo[0]].length > 1 || heights[combo[1]].length > 1
-        volume << combo[0] * (heights[combo[0]].max - heights[combo[0]].min)
-        volume << combo[1] * (heights[combo[1]].max - heights[combo[1]].min)
-      end
-      heights[combo[0]].each do |idx1|
-        heights[combo[1]].each do |idx2|
-          max_idx_combo << (idx2 - idx1)
-        end
-      end
-    volume << (combo.min * max_idx_combo.max)
+  left = 0             # Left pointer starting from the leftmost edge
+  right = height.size - 1  # Right pointer starting from the rightmost edge
+  max_water = 0        # Initialize the maximum water capacity
+  
+  while left < right
+    # Calculate the width of the container
+    width = right - left
+    
+    # Calculate the height of the container (the minimum height between the two lines)
+    h = [height[left], height[right]].min
+    
+    # Calculate the water capacity of the current container
+    water = width * h
+    
+    # Update the maximum water capacity if the current container holds more water
+    max_water = [max_water, water].max
+    
+    # Move the pointers towards each other
+    if height[left] < height[right]
+      left += 1
+    else
+      right -= 1
     end
-    volume.max
-  else
-    heights.keys[0] * (heights[heights.keys[0]].length - 1)
   end
+  max_water
 end
 
 p max_area(heights)
