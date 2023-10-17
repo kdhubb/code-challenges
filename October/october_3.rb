@@ -31,7 +31,8 @@
 # 0 <= height[i] <= 104
 
 # heights = [1,8,6,2,5,4,8,3,7]
-heights = [1,1]
+# heights = [1,1]
+heights = [4,3,2,1,4]
 
 def max_area(height)
   heights = Hash.new([])
@@ -42,6 +43,10 @@ def max_area(height)
   if heights.keys.length > 1
     heights.keys.combination(2) do |combo|
       max_idx_combo = []
+      if heights[combo[0]].length > 1 || heights[combo[1]].length > 1
+        volume << combo[0] * (heights[combo[0]].max - heights[combo[0]].min)
+        volume << combo[1] * (heights[combo[1]].max - heights[combo[1]].min)
+      end
       heights[combo[0]].each do |idx1|
         heights[combo[1]].each do |idx2|
           max_idx_combo << (idx2 - idx1)
