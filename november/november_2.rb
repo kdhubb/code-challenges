@@ -40,14 +40,15 @@ def longest_common_prefix(strings)
   until common_letters.length == 0 || left == strings.length
     if common_letters == strings[left].split("")
       left += 1
+    else
+      left_char = 0
+      char_arr = strings[left].split("")
+      until char_arr[left_char] != common_letters[left_char]
+        left_char += 1 
+      end
+      common_letters.slice!(left_char..(common_letters.length - 1))
+      left += 1
     end
-    left_char = 0
-    char_arr = strings[left].split("")
-    until char_arr[left_char] != common_letters[left_char]
-      left_char += 1 
-    end
-    common_letters.slice!(left_char..(common_letters.length - 1))
-    left += 1
   end
   common_letters.join("")
 end
