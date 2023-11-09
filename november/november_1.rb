@@ -38,6 +38,18 @@
 # 0 <= Node.val <= 9
 # It is guaranteed that the list represents a number that does not have leading zeros.
 
+# Definition for singly-linked list.
+# class ListNode
+#     attr_accessor :val, :next
+#     def initialize(val = 0, _next = nil)
+#         @val = val
+#         @next = _next
+#     end
+# end
+# @param {ListNode} l1
+# @param {ListNode} l2
+# @return {ListNode}
+
 l_1 = [2,4,3]
 l_2 = [5,6,4]
 
