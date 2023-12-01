@@ -53,9 +53,6 @@ def sum_calibration(text_file)
     int_arr = line.split("").select! do |character|
       character =~ /[0123456789]/
     end
-    p int_arr
-    p int_arr[0]
-    p int_arr[-1]
   
     new_int_string = int_arr[0] + int_arr[-1]
     sum += new_int_string.to_i
