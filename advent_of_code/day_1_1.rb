@@ -50,15 +50,15 @@
 def sum_calibration(text_file)
   sum = 0
   File.foreach(text_file) do |line|
-    int_arr = line.split("").select do |character|
-      character == "0" || "1" || "2" || "3" || "4" || "5" || "6" || "7" || "8" || "9"
+    int_arr = line.split("").select! do |character|
+      character =~ /[0123456789]/
     end
-    if int_arr.length < 3
-      sum += int_arr.join("").to_i
-    else
-      new_int_string = int_arr[0] + int_arr[-2]
-      sum += new_int_string.to_i
-    end
+    p int_arr
+    p int_arr[0]
+    p int_arr[-1]
+  
+    new_int_string = int_arr[0] + int_arr[-1]
+    sum += new_int_string.to_i
   end
   sum
 end
