@@ -43,11 +43,24 @@
 # Consider your entire calibration document. 
 # What is the sum of all of the calibration values?
 
+# ?? What other characters are there? .,!##$%
+# ?? What about leading zeros?
+
 
 def sum_calibration(text_file)
+  sum = 0
   File.foreach(text_file) do |line|
-    p line.downcase.delete!("a-z").to_i
+    int_arr = line.split("").select do |character|
+      character == "0" || "1" || "2" || "3" || "4" || "5" || "6" || "7" || "8" || "9"
+    end
+    if int_arr.length < 3
+      sum += int_arr.join("").to_i
+    else
+      new_int_string = int_arr[0] + int_arr[-2]
+      sum += new_int_string.to_i
+    end
   end
+  sum
 end
 
 p sum_calibration("input.txt")
