@@ -59,14 +59,16 @@ def sum_calibration(text_file)
     int_arr = line.split("").select! do |character|
       character =~ /[0123456789]/
     end
-  
+    p int_arr
     new_int_string = int_arr[0] + int_arr[-1]
+    p new_int_string
     sum += new_int_string.to_i
   end
   sum
 end
 
 p sum_calibration("input.txt")
+p sum_calibration("test.txt")
 
 # --- Part Two ---
 # Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid "digits".
