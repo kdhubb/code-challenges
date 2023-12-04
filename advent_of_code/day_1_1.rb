@@ -51,8 +51,11 @@ def sum_calibration(text_file)
   nums = { "one"=> "1", "two"=> "2", "three"=> "3",
             "four"=> "4", "five"=> "5", "six"=> "6",
             "seven"=> "7", "eight"=> "8", "nine"=> "9" }
+  re = Regexp.union(nums.keys)          
   File.foreach(text_file) do |line|
-    line.gsub(/\w/, nums)
+    p line
+    line.gsub!(re, nums)
+    p line
     int_arr = line.split("").select! do |character|
       character =~ /[0123456789]/
     end
