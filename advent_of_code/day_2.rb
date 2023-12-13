@@ -66,18 +66,15 @@ def possible_games(text_file)
   sum = 0
   File.foreach(text_file) do |line|
     game = /Game.+\:/.match("#{line}")[0]
-    game_num = game.delete("Game ")
-    game_num.delete!(":")
-    p game_num.to_i
-
+   
     line.gsub!(";", ",")
     line.delete_prefix!("#{game} ")
-    p cube_arr = line.split(", ")
+    cube_arr = line.split(", ")
 
+    red = [0]
+    green = [0]
+    blue = [0]
     cube_arr.each do |set|
-      red = [0]
-      green = [0]
-      blue = [0]
       if set.include?("green")
         green << set.to_i
       end
@@ -87,9 +84,12 @@ def possible_games(text_file)
       if set.include?("blue")
         blue << set.to_i
       end
-      if red.max <= 12 && green.max <= 13 && blue.max <= 14
-        sum += game_num.to_i
-      end
+    end
+
+    if red.max <= 12 && green.max <= 13 && blue.max <= 14
+      game_num = game.delete("Game ")
+      game_num.delete!(":")
+      sum += game_num.to_i
     end
   end
   p sum
