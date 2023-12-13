@@ -49,3 +49,50 @@
 # Determine which games would have been possible if the bag had been 
 # loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. 
 # What is the sum of the IDs of those games?
+
+# ?? Are there any other colors of cubes??
+# ?? Are all the game ids consecutive whole numbers?
+# ?? Are all the game ids integers? or are some written numbers?
+
+#Line by line parse out largest numbers of red, green and blue cubes.
+#Compare those largest numbers with the 12, 13 and 14 above. 
+#If the largest numbers are less than or equal to 12, 13, and 14,
+# Then the game is possible
+
+# If the game is possible, extract game id number and turn into integer 
+# add it's ID number to a running total.
+
+def possible_games(text_file)
+  sum = 0
+  File.foreach(text_file) do |line|
+    game = /Game.+\:/.match("#{line}")[0]
+    game_num = game.delete("Game ")
+    game_num.delete!(":")
+    p game_num.to_i
+
+    line.gsub!(";", ",")
+    line.delete_prefix!("#{game} ")
+    p cube_arr = line.split(", ")
+
+    cube_arr.each do |set|
+      red = [0]
+      green = [0]
+      blue = [0]
+      if set.include?("green")
+        green << set.to_i
+      end
+      if set.include?("red")
+        red << set.to_i
+      end
+      if set.include?("blue")
+        blue << set.to_i
+      end
+      if red.max <= 12 && green.max <= 13 && blue.max <= 14
+        sum += game_num.to_i
+      end
+    end
+  end
+  p sum
+end
+
+possible_games("input_2.txt")
