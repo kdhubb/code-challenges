@@ -99,13 +99,14 @@ def schematic_sum(text_file)
       char_arr = line.split("")
       nums = []
       curr_index = -1
-      num_indices.each do |index|
+      num_indices.each do |num_index|
         curr_index += 1
-        nums << char_arr[index]
-        if num_indices[curr_index + 1] != index + 1
+        nums << char_arr[num_index]
+        if num_indices[curr_index + 1] != num_index + 1
           num = nums.join("").to_i
           # p num
           sum += num
+          nums = []
           # p nums
         end
       end
