@@ -68,48 +68,42 @@ def schematic_sum(text_file)
   sum = 0
 
   File.foreach(text_file) do |line|
-    index = 0
+    sym_index = 0
     line_read = []
     line.each_char do |char|
-      if char == "*" || "#"
-      line_read << index
-      index += 1
+      if char !=~ /[0123456789.]/
+      line_read << sym_index
       end
+      sym_index += 1
     end
     previous_line = current_line
     current_line = next_line
     next_line = line_read
-    line_num += 1
-  end
-  if line_num >= 2
-    File.foreach(text_file) do |line|
-      index = 0
-      num_indices = []
-      line.each_char do |char|
-        if char =~ /[0123456789]/
-          num_indices << index
-        end
-        index += 1
+    
+    num_index = 0
+    num_indices = []
+    line.each_char do |char|
+      if char =~ /[0123456789]/
+        num_indices << num_index
       end
-      num_indices.select! do |index|
-        previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
-        current_line.include?(index + 1) || current_line.include?(index - 1) ||
-        next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
+      num_index += 1
+    end
+    num_indices.select! do |index|
+      previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
+      current_line.include?(index + 1) || current_line.include?(index - 1) ||
+      next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
+    end
+    char_arr = line.split("")
+    nums = []
+    curr_index = 0
+    num_indices.each do |num_index|
+      nums << char_arr[num_index]
+      if num_indices[curr_index + 1] != num_index + 1
+        num = nums.join("").to_i
+        sum += num
+        nums.clear
       end
-      char_arr = line.split("")
-      nums = []
-      curr_index = -1
-      num_indices.each do |num_index|
-        curr_index += 1
-        nums << char_arr[num_index]
-        if num_indices[curr_index + 1] != num_index + 1
-          num = nums.join("").to_i
-          # p num
-          sum += num
-          nums = []
-          # p nums
-        end
-      end
+      curr_index += 1
     end
   end
   sum
