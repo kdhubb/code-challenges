@@ -142,8 +142,9 @@ def schematic_sum(text_file)
     sym_index = 0
     line_read = []
     curr_str.each_char do |char|
+      p char
       if char !=~ /[0123456789.]/
-      line_read << sym_index
+        line_read << sym_index
       end
       sym_index += 1
     end
