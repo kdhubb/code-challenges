@@ -199,12 +199,11 @@ def schematic_sum(text_file)
     p adjacent_index
 
 
-
     curr_str_arr = curr_str.split("")
   
     curr_line_nums.each do |index|
       until !/[0123456789]/.match(curr_str_arr[index])
-        
+
       end
     end
 
