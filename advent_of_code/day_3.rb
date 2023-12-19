@@ -60,53 +60,96 @@
 # If yes, then add to sum
 # Maybe use recursion here
 
-def schematic_sum(text_file)
-  previous_line = []
-  current_line = []
-  next_line = []
-  line_num = 0
-  sum = 0
+# def schematic_sum(text_file)
+#   previous_line = []
+#   current_line = []
+#   next_line = []
+#   sum = 0
+#   line_num = 1
+#   until line_num >= 2
+#     File.foreach(text_file) do |line|
+#       sym_index = 0
+#       line_read = []
+#       line.each_char do |char|
+#         if char !=~ /[0123456789.]/
+#         line_read << sym_index
+#         end
+#         sym_index += 1
+#       end
+#       previous_line = current_line
+#       current_line = next_line
+#       next_line = line_read
+#       line_num += 1
+#     end
+#   end 
+#   File.foreach(text_file) do |line|
+#     sym_index = 0
+#     line_read = []
+#     line.each_char do |char|
+#       if char !=~ /[0123456789.]/
+#       line_read << sym_index
+#       end
+#       sym_index += 1
+#     end
+#     previous_line = current_line
+#     current_line = next_line
+#     next_line = line_read
 
+#     num_index = 0
+#     num_indices = []
+#     line.each_char do |char|
+#       if char =~ /[0123456789]/
+#         num_indices << num_index
+#       end
+#       num_index += 1
+#     end
+#     num_indices.select! do |index|
+#       previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
+#       current_line.include?(index + 1) || current_line.include?(index - 1) ||
+#       next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
+#     end
+#     char_arr = line.split("")
+#     nums = []
+#     curr_index = 0
+#     p num_indices
+#     p char_arr
+#     num_indices.each do |num_index|
+#       nums << char_arr[num_index]
+#       if num_indices[curr_index + 1] != num_index + 1
+#         num = nums.join("").to_i
+#         p num
+#         sum += num
+#         p sum
+#         nums.clear
+#       end
+#       curr_index += 1
+#     end
+#   end
+#   sum
+# end
+
+def schematic_sum(text_file)
+  total_lines = 0
+  current_line = 0
+  previous_line = -1
+  next_line = 1
   File.foreach(text_file) do |line|
+    total_lines += 1
+  end
+  until current_line + 1 > total_lines
+    curr_str = IO.readlines(text_file)[current_line]
+    p curr_str
     sym_index = 0
     line_read = []
-    line.each_char do |char|
+    curr_str.each_char do |char|
       if char !=~ /[0123456789.]/
       line_read << sym_index
       end
       sym_index += 1
     end
-    previous_line = current_line
-    current_line = next_line
-    next_line = line_read
-    
-    num_index = 0
-    num_indices = []
-    line.each_char do |char|
-      if char =~ /[0123456789]/
-        num_indices << num_index
-      end
-      num_index += 1
-    end
-    num_indices.select! do |index|
-      previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
-      current_line.include?(index + 1) || current_line.include?(index - 1) ||
-      next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
-    end
-    char_arr = line.split("")
-    nums = []
-    curr_index = 0
-    num_indices.each do |num_index|
-      nums << char_arr[num_index]
-      if num_indices[curr_index + 1] != num_index + 1
-        num = nums.join("").to_i
-        sum += num
-        nums.clear
-      end
-      curr_index += 1
-    end
+    p line_read
+    current_line +=1
   end
-  sum
 end
-
-p schematic_sum("input_3.txt")
+p schematic_sum("test_3.txt") == 4361
+# p schematic_sum("input_3.txt")
