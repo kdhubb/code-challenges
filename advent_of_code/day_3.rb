@@ -133,15 +133,18 @@ def schematic_sum(text_file)
   current_line = 0
   previous_line = -1
   next_line = 1
+
   File.foreach(text_file) do |line|
     total_lines += 1
   end
+
   until next_line >= total_lines
     curr_str = IO.readlines(text_file)[current_line]
     prev_str = IO.readlines(text_file)[current_line - 1]
     next_str = IO.readlines(text_file)[current_line + 1]
 
     p curr_str
+
     sym_index = 0
     curr_line_syms = []
     curr_str.chop.each_char do |char|
@@ -150,15 +153,20 @@ def schematic_sum(text_file)
       end
       sym_index += 1
     end
+    p curr_line_syms
 
-    sym_index = 0
     prev_line_syms = []
-    prev_str.chop.each_char do |char|
-      if  !/[0123456789.]/.match(char)
-        prev_line_syms << sym_index
+    if current_line > 0
+      sym_index = 0
+      prev_str.chop.each_char do |char|
+        if  !/[0123456789.]/.match(char)
+          prev_line_syms << sym_index
+        end
+        sym_index += 1
       end
-      sym_index += 1
     end
+
+    p prev_line_syms
 
     sym_index = 0
     next_line_syms = []
@@ -169,6 +177,8 @@ def schematic_sum(text_file)
       sym_index += 1
     end
 
+    p next_line_syms
+
     num_index = 0
     curr_line_nums = []
     curr_str.chop.each_char do |char|
@@ -178,12 +188,26 @@ def schematic_sum(text_file)
       num_index += 1
     end
 
-    curr_line_nums.select! do |index|
+    p curr_line_nums
+
+    adjacent_index = curr_line_nums.select do |index|
       prev_line_syms.include?(index) || prev_line_syms.include?(index + 1) || prev_line_syms.include?(index - 1) ||
       curr_line_syms.include?(index + 1) || curr_line_syms.include?(index - 1) ||
       next_line_syms.include?(index) || next_line_syms.include?(index + 1) || next_line_syms.include?(index - 1)
     end
     
+    p adjacent_index
+
+
+
+    curr_str_arr = curr_str.split("")
+  
+    curr_line_nums.each do |index|
+      until !/[0123456789]/.match(curr_str_arr[index])
+        
+      end
+    end
+
     p curr_line_nums
 
     current_line += 1
