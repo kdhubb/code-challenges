@@ -48,6 +48,10 @@
 # engine schematic?
 
 # ?? symbols include: !@#$%^&*()?+=_-~`":;/><,\|[]{}`
+# if line 4 has a symbol at index five
+# and line 5 has a number at indeces 4, 5, and six,
+# is that considered adjacent?
+
 
 # Map each line to an array
 # Record index positions of symbols for previous, current and next line
@@ -75,8 +79,26 @@ def schematic_sum(text_file)
     current_line = next_line
     next_line = line_read
     line_num += 1
-    if line_num >= 2
-      line
+  end
+  if line_num >= 2
+    File.foreach(text_file) do |line|
+      index = 0
+      num_indices = []
+      line.each_char do |char|
+        if char =~ /[0123456789]/
+          num_indices << index
+        end
+        index += 1
+      end
+      num_indices.each do |index|
+        if previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
+          current_line.include?(index) || current_line.include?(index + 1) || current_line.include?(index - 1) ||
+          next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
+          char_arr = line.split("")
+        end
+        p num_indices
+      end
+
     end
   end
 end
