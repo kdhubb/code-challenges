@@ -93,19 +93,20 @@ def schematic_sum(text_file)
       end
       num_indices.select! do |index|
         previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
-        current_line.include?(index) || current_line.include?(index + 1) || current_line.include?(index - 1) ||
+        current_line.include?(index + 1) || current_line.include?(index - 1) ||
         next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
       end
       char_arr = line.split("")
       nums = []
       curr_index = -1
       num_indices.each do |index|
-        index += 1
+        curr_index += 1
         nums << char_arr[index]
         if num_indices[curr_index + 1] != index + 1
           num = nums.join("").to_i
+          # p num
           sum += num
-          nums = []
+          # p nums
         end
       end
     end
