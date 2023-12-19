@@ -65,6 +65,7 @@ def schematic_sum(text_file)
   current_line = []
   next_line = []
   line_num = 0
+  sum = 0
 
   File.foreach(text_file) do |line|
     index = 0
@@ -90,17 +91,26 @@ def schematic_sum(text_file)
         end
         index += 1
       end
-      num_indices.each do |index|
-        if previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
-          current_line.include?(index) || current_line.include?(index + 1) || current_line.include?(index - 1) ||
-          next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
-          char_arr = line.split("")
-        end
-        p num_indices
+      num_indices.select! do |index|
+        previous_line.include?(index) || previous_line.include?(index + 1) || previous_line.include?(index - 1) ||
+        current_line.include?(index) || current_line.include?(index + 1) || current_line.include?(index - 1) ||
+        next_line.include?(index) || next_line.include?(index + 1) || next_line.include?(index - 1)
       end
-
+      char_arr = line.split("")
+      nums = []
+      curr_index = -1
+      num_indices.each do |index|
+        index += 1
+        nums << char_arr[index]
+        if num_indices[curr_index + 1] != index + 1
+          num = nums.join("").to_i
+          sum += num
+          nums = []
+        end
+      end
     end
   end
+  sum
 end
 
 p schematic_sum("input_3.txt")
