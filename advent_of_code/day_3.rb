@@ -71,8 +71,8 @@
 #       sym_index = 0
 #       line_read = []
 #       line.each_char do |char|
-#         if char !=~ /[0123456789.]/
-#         line_read << sym_index
+#         if !/[0123456789.]/.match(char)
+#           line_read << sym_index
 #         end
 #         sym_index += 1
 #       end
@@ -86,8 +86,8 @@
 #     sym_index = 0
 #     line_read = []
 #     line.each_char do |char|
-#       if char !=~ /[0123456789.]/
-#       line_read << sym_index
+#       if !/[0123456789.]/.match(char)
+#         line_read << sym_index
 #       end
 #       sym_index += 1
 #     end
@@ -98,7 +98,7 @@
 #     num_index = 0
 #     num_indices = []
 #     line.each_char do |char|
-#       if char =~ /[0123456789]/
+#       if /[0123456789]/.match(char)
 #         num_indices << num_index
 #       end
 #       num_index += 1
@@ -136,21 +136,61 @@ def schematic_sum(text_file)
   File.foreach(text_file) do |line|
     total_lines += 1
   end
-  until current_line + 1 > total_lines
+  until next_line >= total_lines
     curr_str = IO.readlines(text_file)[current_line]
+    prev_str = IO.readlines(text_file)[current_line - 1]
+    next_str = IO.readlines(text_file)[current_line + 1]
+
     p curr_str
     sym_index = 0
-    line_read = []
-    curr_str.each_char do |char|
-      p char
-      if char !=~ /[0123456789.]/
-        line_read << sym_index
+    curr_line_syms = []
+    curr_str.chop.each_char do |char|
+      if  !/[0123456789.]/.match(char)
+        curr_line_syms << sym_index
       end
       sym_index += 1
     end
-    p line_read
-    current_line +=1
+
+    sym_index = 0
+    prev_line_syms = []
+    prev_str.chop.each_char do |char|
+      if  !/[0123456789.]/.match(char)
+        prev_line_syms << sym_index
+      end
+      sym_index += 1
+    end
+
+    sym_index = 0
+    next_line_syms = []
+    next_str.chop.each_char do |char|
+      if  !/[0123456789.]/.match(char)
+        next_line_syms << sym_index
+      end
+      sym_index += 1
+    end
+
+    num_index = 0
+    curr_line_nums = []
+    curr_str.chop.each_char do |char|
+      if /[0123456789]/.match(char)
+        curr_line_nums << num_index
+      end
+      num_index += 1
+    end
+
+    curr_line_nums.select! do |index|
+      prev_line_syms.include?(index) || prev_line_syms.include?(index + 1) || prev_line_syms.include?(index - 1) ||
+      curr_line_syms.include?(index + 1) || curr_line_syms.include?(index - 1) ||
+      next_line_syms.include?(index) || next_line_syms.include?(index + 1) || next_line_syms.include?(index - 1)
+    end
+    
+    p curr_line_nums
+
+    current_line += 1
+    previous_line += 1
+    next_line += 1
   end
 end
+
 p schematic_sum("test_3.txt") == 4361
 # p schematic_sum("input_3.txt")
