@@ -133,6 +133,7 @@ def schematic_sum(text_file)
   current_line = 0
   previous_line = -1
   next_line = 1
+  sum = 0
 
   File.foreach(text_file) do |line|
     total_lines += 1
@@ -200,14 +201,18 @@ def schematic_sum(text_file)
 
 
     curr_str_arr = curr_str.split("")
-  
+    
+    num_arr = []
+    nums = []
     curr_line_nums.each do |index|
-      until !/[0123456789]/.match(curr_str_arr[index])
-
+      num_arr << curr_str_arr[index]
+      if curr_line_nums[index + 1] != index + 1
+        nums << num_arr.join("").to_i
+        num_arr.clear
       end
     end
-
-    p curr_line_nums
+   
+    
 
     current_line += 1
     previous_line += 1
