@@ -80,13 +80,22 @@ def scratch_sum(text_file)
     line_total = 0
     card = /Card.+\:/.match("#{line}")[0]
     line.delete_prefix!("#{card} ")
-    p line
 
     winning_scratcher = line.split("|")
     winning_nums = winning_scratcher[0].split(" ")
     scratcher_nums = winning_scratcher[1].split(" ")
-    p winning_nums
+    matches = winning_nums.intersection(scratcher_nums).count
+    if matches == 1
+      sum += 1
+    elsif matches == 0
+    else
+      line_total += 1
+      matches -= 1
+      matches.times {line_total *= 2}
+      sum += line_total
+    end
   end
+  sum
 end
 
 p scratch_sum("test_4.txt") == 13
