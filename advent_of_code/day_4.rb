@@ -61,3 +61,33 @@
 # Take a seat in the large pile of colorful cards. 
 # How many points are they worth in total?
 
+
+# Account for spacing...
+# Parse out and remove "Card #:s"
+# Line by line: 
+  # separate winning numbers and scratcher numbers into separate strings
+  # put winning numbers and scratcher numbers into separate arrays
+  # compare and count matches
+  # special case for only one?
+  # running total that gets squared the number of times that there are matches
+  # after each line, add final score to sum and clear line sum
+
+
+def scratch_sum(text_file)
+  sum = 0
+  
+  File.foreach(text_file) do |line|
+    line_total = 0
+    card = /Card.+\:/.match("#{line}")[0]
+    line.delete_prefix!("#{card} ")
+    p line
+
+    winning_scratcher = line.split("|")
+    winning_nums = winning_scratcher[0].split(" ")
+    scratcher_nums = winning_scratcher[1].split(" ")
+    p winning_nums
+  end
+end
+
+p scratch_sum("test_4.txt") == 13
+p scratch_sum("input_4.txt")
