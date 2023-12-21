@@ -75,7 +75,6 @@
 
 def scratch_sum(text_file)
   sum = 0
-  
   File.foreach(text_file) do |line|
     line_total = 0
     card = /Card.+\:/.match("#{line}")[0]
@@ -98,8 +97,8 @@ def scratch_sum(text_file)
   sum
 end
 
-p scratch_sum("test_4.txt") == 13
-p scratch_sum("input_4.txt")
+# p scratch_sum("test_4.txt") == 13
+# p scratch_sum("input_4.txt")
 
 # --- Part Two ---
 # Just as you're about to report your findings to the Elf, 
@@ -153,3 +152,76 @@ p scratch_sum("input_4.txt")
 # no more scratchcards are won. Including the original set of scratchcards, 
 # how many total scratchcards do you end up with?
 
+# Batch processing option:
+# Count total number of cards
+# get number of matches for each card, put into an array
+# iterate through array and process number of copies of successive 
+# cards based on wins adding to running total until out of wins.
+  # consider mapping this to hash with card numbers as keys
+
+def total_scratchers(text_file)
+  sum = 0
+  total_cards = 0
+  scratcher_copies = Hash.new(0)
+  matches = []
+  copies_won = []
+
+  File.foreach(text_file) do |line|
+    total_cards += 1
+  end  
+  File.foreach(text_file) do |line|
+    card = /Card.+\:/.match("#{line}")[0]
+    scratcher_copies[card] = 0
+  end
+
+  File.foreach(text_file) do |line|
+    card = /Card.+\:/.match("#{line}")[0]
+    line.delete_prefix!("#{card} ")
+    scratcher = line.split("|")
+    winning_nums = scratcher[0].split(" ")
+    scratcher_nums = scratcher[1].split(" ")
+    matching_nums = winning_nums.intersection(scratcher_nums).count
+    matches << matching_nums
+  end
+
+  File.foreach(text_file) do |line|
+    card = /Card.+\:/.match("#{line}")[0].to_sym
+    matches.each do |num|
+      copies_won << {"#{card}": num}
+    end
+  end
+
+  # File.foreach(text_file) do |line|
+  #   card = /Card.+\:/.match("#{line}")[0]
+  #   wins = matches[scratcher_copies.keys.index(card)]
+  #   p wins
+  #   (scratcher_copies[card]..scratcher_copies.keys.last).each_value do |copies|
+  #     copies += 1
+  #   end
+  # end
+
+  p copies_won
+end
+
+p total_scratchers("input_4.txt")
+p total_scratchers("test_4_2.txt") == 30
+
+# pointer = 0
+# card_num = 0
+# matches.each do |num|
+#   break if num == 0
+#     card_num += 1
+#     this_pointer = card_num + num
+#     pointer = [this_pointer, pointer].max
+# end
+# sum = matches[0..pointer -1].sum
+# sum
+
+# card_num = 0
+# scratcher_copies.each do |card_num, copies|
+#   card_matches = matches[card_num]
+#   until card_matches <= 0
+#     matches[card_num].times { copies += 1}
+
+#   end
+# end
