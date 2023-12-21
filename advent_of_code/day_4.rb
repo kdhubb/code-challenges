@@ -81,9 +81,9 @@ def scratch_sum(text_file)
     card = /Card.+\:/.match("#{line}")[0]
     line.delete_prefix!("#{card} ")
 
-    winning_scratcher = line.split("|")
-    winning_nums = winning_scratcher[0].split(" ")
-    scratcher_nums = winning_scratcher[1].split(" ")
+    scratcher = line.split("|")
+    winning_nums = scratcher[0].split(" ")
+    scratcher_nums = scratcher[1].split(" ")
     matches = winning_nums.intersection(scratcher_nums).count
     if matches == 1
       sum += 1
