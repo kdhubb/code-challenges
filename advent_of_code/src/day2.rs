@@ -1,9 +1,10 @@
 pub fn run() {
     let file = std::fs::read_to_string("bob_input/02.txt").unwrap();
-    println!("{}", exec(&file));
+    println!("part 1: {}", part1(&file));
+    println!("part 2: {}", part2(&file));
 }
 
-fn exec(file: &str) -> i32 {
+fn part1(file: &str) -> i32 {
     let games = process(file);
     let red = 12;
     let green = 13;
@@ -14,6 +15,17 @@ fn exec(file: &str) -> i32 {
         if game.max_red <= red && game.max_green <= green && game.max_blue <= blue {
             sum += game.number
         }
+    }
+
+    sum
+}
+
+fn part2(file: &str) -> i32 {
+    let games = process(file);
+
+    let mut sum = 0;
+    for game in games {
+        sum += game.max_blue * game.max_green * game.max_red;
     }
 
     sum
@@ -69,8 +81,6 @@ fn process(file: &str) -> Vec<Game> {
 
 #[cfg(test)]
 mod test {
-    use super::*;
-
     const FILE: &str = r#"
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -81,6 +91,11 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 
     #[test]
     fn part1() {
-        assert_eq!(exec(FILE), 8);
+        assert_eq!(super::part1(FILE), 8);
+    }
+
+    #[test]
+    fn part2() {
+        assert_eq!(super::part2(FILE), 2286);
     }
 }
