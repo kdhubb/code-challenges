@@ -39,7 +39,7 @@ func main() {
 func readInput() <-chan string {
 	lines := make(chan string)
 	go func() {
-		file, err := os.Open("01-input.txt")
+		file, err := os.Open("bob_input/01.txt")
 		check(err)
 		defer func() { check(file.Close()) }()
 

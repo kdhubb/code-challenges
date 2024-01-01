@@ -1,5 +1,5 @@
 pub fn run() {
-    let file = std::fs::read_to_string("02-input.txt").unwrap();
+    let file = std::fs::read_to_string("bob_input/02.txt").unwrap();
     println!("{}", exec(&file));
 }
 
