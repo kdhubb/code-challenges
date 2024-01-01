@@ -1,10 +1,14 @@
 mod day2;
 
 fn main() {
-    let arg_matches = clap::Command::new("advent_of_code")
+    let arg_matches = clap::command!()
         .arg(
             clap::Arg::new("day")
+                .help("The day of advent of code to run")
                 .value_parser(clap::value_parser!(u8).range(1..31))
+                .action(clap::ArgAction::Set)
+                .exclusive(true)
+                .num_args(1)
                 .required(true),
         )
         .get_matches();
