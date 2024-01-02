@@ -1,4 +1,8 @@
+#[macro_use]
+extern crate lazy_static;
+
 mod day2;
+mod day3;
 
 fn main() {
     let arg_matches = clap::command!()
@@ -17,6 +21,7 @@ fn main() {
     match day {
         1 => println!("Day 1 was written in Go."),
         2 => day2::run(),
+        3 => day3::run(),
         _ => panic!("invalid day"),
     }
 }
